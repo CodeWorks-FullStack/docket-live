@@ -84,7 +84,8 @@ export class PollsController extends BaseController {
 
   async deletePoll(req, res, next) {
     try {
-      const poll = await pollsService.deletePoll(req.params.id, req.userInfo.id)
+      // NOTE why pass through the creatorId? As long as the logged in user is a staff member, we should allow a delete
+      const poll = await pollsService.deletePoll(req.params.id)
       res.send(poll)
     } catch (error) {
       next(error)

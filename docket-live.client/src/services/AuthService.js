@@ -1,5 +1,4 @@
 import { initialize } from '@bcwdev/auth0provider-client'
-import { useRoute } from "vue-router"
 import { AppState } from '../AppState'
 import { audience, clientId, domain } from '../env'
 import { router } from '../router'

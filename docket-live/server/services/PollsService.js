@@ -2,6 +2,8 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 
+// TODO refactor this code a little - use mongoose methods
+
 class PollsService {
   async getAllPolls(query = {}) {
     const polls = await dbContext.Polls.find(query)
@@ -18,11 +20,11 @@ class PollsService {
   }
 
   async createPoll(body) {
-    const polls = await dbContext.Polls.create(body)
-    if (!polls) {
+    const poll = await dbContext.Polls.create(body)
+    if (!poll) {
       throw new BadRequest('Could not create')
     }
-    return polls
+    return poll
   }
 
   // FIXME[epic=PollEditing] editing a poll should no longer edit the original, instead it should create a copy of the master with the new changes
@@ -36,12 +38,10 @@ class PollsService {
     return edited
   }
 
-  async deletePoll(id, userId) {
-    const deleted = await dbContext.Polls.findOneAndDelete({ _id: id })
-    if (!deleted) {
-      throw new BadRequest('Could Not Delete')
-    }
-    return deleted
+  async deletePoll(id) {
+    const pollToDelete = await this.getPollById(id)
+    await pollToDelete.remove()
+    return pollToDelete
   }
 }
 

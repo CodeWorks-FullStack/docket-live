@@ -1,6 +1,6 @@
 <template>
-  <div class="row justify-content-start content-height">
-    <div class="col-12 bg-light">
+  <div class="row justify-content-start content-height mb-4">
+    <div class="col-12 bg-light rounded">
       <div class="row mt-4">
         <div class="col-md-6">
           <input
@@ -20,8 +20,8 @@
           </button>
         </div>
       </div>
-      <div class="row justify-content-center">
-        <PollComponent v-for="p in polls" :key="p.id" :poll="p" />
+      <div class="row justify-content-center pb-4">
+        <PollComponent v-for="p in polls" :key="p.id" :poll="p" class="" />
       </div>
     </div>
     <Modal id="createPoll">
@@ -55,6 +55,7 @@ import { onMounted } from "@vue/runtime-core"
 import { AppState } from "../AppState"
 import { logger } from "../utils/Logger"
 import { Modal } from "bootstrap"
+import Pop from "../utils/Pop"
 export default {
   setup() {
     const editable = ref({})
@@ -75,6 +76,7 @@ export default {
           if (editable.value.title && editable.value.week) {
             await pollsService.createPoll(editable.value)
           }
+          Pop.toast('Poll Created!', 'success')
           Modal.getOrCreateInstance(document.getElementById('createPoll')).hide()
         } catch (error) {
           logger.error(error)
@@ -87,4 +89,6 @@ export default {
 
 
 <style lang="scss" scoped>
+.polls-card {
+}
 </style>
