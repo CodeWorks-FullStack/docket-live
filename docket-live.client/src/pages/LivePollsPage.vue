@@ -1,30 +1,50 @@
 <template>
   <div class="row justify-content-start content-height">
-      <div class="col-12 bg-light">
-        <div class="row mt-4">
-          <div class="col-md-6">
-            <input type="text" placeholder="search..." class="search w-100 ms-md-4" v-model="searchQuery">
-          </div>
-          <div class="col-6 text-end">
-            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#createPoll">Create Poll</button>
-          </div>
+    <div class="col-12 bg-light">
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <input
+            type="text"
+            placeholder="search..."
+            class="search w-100 ms-md-4"
+            v-model="searchQuery"
+          />
         </div>
-          <div class="row justify-content-center">
-          <PollComponent v-for="p in polls" :key="p.id" :poll="p" />
-
-          </div>
+        <div class="col-6 text-end">
+          <button
+            class="btn btn-outline-dark"
+            data-bs-toggle="modal"
+            data-bs-target="#createPoll"
+          >
+            Create Poll
+          </button>
+        </div>
       </div>
-      <Modal id="createPoll">
-        <template #modal-title>
-          <h5>Create Poll</h5>
-        </template>
-        <template #modal-body>
-          <input class="w-100" type="text" placeholder="Title..." v-model="editable.title">
-          <input class="w-100 mt-4" type="text" placeholder="Week..." v-model="editable.week">
-          <button class="btn btn-success mt-4" @click="createPoll">Create</button>
-        </template>
-      </Modal>
+      <div class="row justify-content-center">
+        <PollComponent v-for="p in polls" :key="p.id" :poll="p" />
+      </div>
     </div>
+    <Modal id="createPoll">
+      <template #modal-title>
+        <h5>Create Poll</h5>
+      </template>
+      <template #modal-body>
+        <input
+          class="w-100"
+          type="text"
+          placeholder="Title..."
+          v-model="editable.title"
+        />
+        <input
+          class="w-100 mt-4"
+          type="text"
+          placeholder="Week..."
+          v-model="editable.week"
+        />
+        <button class="btn btn-success mt-4" @click="createPoll">Create</button>
+      </template>
+    </Modal>
+  </div>
 </template>
 
 
@@ -34,11 +54,12 @@ import { pollsService } from "../services/PollsService"
 import { onMounted } from "@vue/runtime-core"
 import { AppState } from "../AppState"
 import { logger } from "../utils/Logger"
+import { Modal } from "bootstrap"
 export default {
-  setup(){
+  setup() {
     const editable = ref({})
     const searchQuery = ref('')
-    onMounted(async() => {
+    onMounted(async () => {
       try {
         await pollsService.getPolls()
       } catch (error) {
@@ -48,16 +69,17 @@ export default {
     return {
       editable,
       searchQuery,
-        polls: computed(() => AppState.polls),
-        async createPoll(){
-          try {
-            if(editable.value.title && editable.value.week){
-              await pollsService.createPoll(editable.value)
-            }
-          } catch (error) {
-            logger.error(error)
+      polls: computed(() => AppState.polls),
+      async createPoll() {
+        try {
+          if (editable.value.title && editable.value.week) {
+            await pollsService.createPoll(editable.value)
           }
+          Modal.getOrCreateInstance(document.getElementById('createPoll')).hide()
+        } catch (error) {
+          logger.error(error)
         }
+      }
     }
   }
 }

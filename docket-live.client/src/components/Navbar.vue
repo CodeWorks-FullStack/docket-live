@@ -2,9 +2,8 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <p class="text-primary mb-0" v-if="account.role == 'staff'">Docket.live.Instructors</p>
+        <p class="text-primary mb-0" v-if="isStaff">Docket.live.Instructors</p>
         <p class="text-primary mb-0" v-else>Docket.live</p>
-
       </div>
     </router-link>
     <button
@@ -19,14 +18,20 @@
       <span class="navbar-toggler-icon" />
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
-
-      </ul>
+      <ul class="navbar-nav me-auto"></ul>
       <span class="navbar-text">
         <button
-          class="btn selectable text-success lighten-30 text-uppercase my-2 my-lg-0 text-dark"
+          class="
+            btn
+            selectable
+            text-success
+            lighten-30
+            text-uppercase
+            my-2 my-lg-0
+            text-dark
+          "
           @click="login"
-          v-if="!user.isAuthenticated"
+          v-if="!account.id"
         >
           Login
         </button>
@@ -44,7 +49,7 @@
               height="40"
               class="profileImg"
             />
-            <span class="mx-3 text-primary ">{{ user.name }}</span>
+            <span class="mx-3 text-primary">{{ user.name }}</span>
           </div>
           <div
             class="dropdown-menu p-0 list-group w-100"
@@ -56,7 +61,11 @@
               </div>
             </router-link>
             <div
-              class="list-group-item list-group-item-action hoverable text-danger"
+              class="
+                list-group-item list-group-item-action
+                hoverable
+                text-danger
+              "
               @click="logout"
             >
               <i class="mdi mdi-logout"></i>
@@ -78,6 +87,7 @@ export default {
     return {
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
+      isStaff: computed(() => AuthService.hasRoles('staff')),
       async login() {
         AuthService.loginWithPopup()
       },
@@ -106,19 +116,19 @@ a:hover {
   text-decoration: none;
 }
 
-.profileImg{
+.profileImg {
   border-radius: 50%;
 }
-.nav-link{
+.nav-link {
   text-transform: uppercase;
 }
-.navbar-nav .router-link-exact-active{
+.navbar-nav .router-link-exact-active {
   border-bottom: 2px solid var(--bs-success);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.navbar{
-   box-shadow: 0px 3px 3px rgba(36, 36, 36, 0.486);
+.navbar {
+  box-shadow: 0px 3px 3px rgba(36, 36, 36, 0.486);
 }
 </style>
