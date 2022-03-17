@@ -2,50 +2,46 @@ import { AppState } from "../AppState"
 import { PollSession } from "../models/PollSession"
 import { logger } from "../utils/Logger"
 import { api } from "./AxiosService"
-import { socketService } from "./SocketService"
 
-class PollSessionsService{
+class PollSessionsService {
 
-
-  async getById(id){
+  async getById(id) {
     const res = await api.get('api/pollSessions/' + id)
     AppState.activeSession = res.data
-
     return res.data
   }
 
-  async getResults(){
+  async getResults() {
     const res = await api.get('api/pollSessions')
+    logger.log('get results res', res.data)
     AppState.polls = res.data.map(s => new PollSession(s))
     logger.log(AppState.polls)
   }
 
-  async createPollSession(newPollSession){
+  async createPollSession(newPollSession) {
     const res = await api.post('api/pollSessions', newPollSession)
     logger.log(res.data)
     AppState.activeSession = res.data
     return res.data.id
   }
 
-  async joinPoll(code){
+  async joinPoll(code) {
     const res = await api.put('api/pollSessions/' + code + '/join')
     AppState.activeSession = res.data
     return res.data.id
   }
 
-  async finishPollSession(){
+  async finishPollSession() {
     const sessionEnding = AppState.activeSession
     sessionEnding.isLive = false
     await api.put('api/pollSessions/' + sessionEnding.id, sessionEnding)
   }
 
 
-  async cancelPollSession(){
+  async cancelPollSession() {
     const session = AppState.activeSession
     await api.delete('api/pollSessions/' + session.id)
   }
 }
-
-
 
 export const pollSessionsService = new PollSessionsService()

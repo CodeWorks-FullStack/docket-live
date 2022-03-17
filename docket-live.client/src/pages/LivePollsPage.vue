@@ -1,5 +1,6 @@
 <template>
   <div class="row justify-content-start content-height mb-4">
+    <!-- TODO need to fix styling for upper right hand corner of card -->
     <div class="col-12 bg-light rounded">
       <div class="row mt-4">
         <div class="col-md-6">

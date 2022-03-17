@@ -162,6 +162,7 @@ export default {
       async createPollSession() {
         try {
           const newPollSession = {}
+          newPollSession.title = props.poll.title
           newPollSession.className = await Pop.createPollSession()
           newPollSession.isLive = true
           newPollSession.pollId = props.poll.id

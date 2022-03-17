@@ -1,18 +1,20 @@
 <template>
   <div class="row justify-content-start content-height">
-      <div class="col-12 bg-light">
-        <div class="row mt-4">
-          <div class="col-6">
-            <input type="text" placeholder="search..." class="search w-100 ms-md-4">
-          </div>
+    <div class="col-12 bg-light">
+      <div class="row mt-4">
+        <div class="col-6">
+          <input
+            type="text"
+            placeholder="search..."
+            class="search w-100 ms-md-4"
+          />
         </div>
-          <div class="row justify-content-center">
-          <PollComponent v-for="p in polls" :key="p.id" :poll="p" />
-
-          </div>
       </div>
-
+      <div class="row justify-content-center">
+        <PollComponent v-for="p in polls" :key="p.id" :poll="p" />
+      </div>
     </div>
+  </div>
 </template>
 
 
@@ -22,8 +24,8 @@ import { pollSessionsService } from "../services/PollSessionsService"
 import { logger } from "../utils/Logger"
 import { AppState } from "../AppState"
 export default {
-  setup(){
-    onMounted(async() => {
+  setup() {
+    onMounted(async () => {
       try {
         await pollSessionsService.getResults()
       } catch (error) {
@@ -39,5 +41,4 @@ export default {
 
 
 <style lang="scss" scoped>
-
 </style>
