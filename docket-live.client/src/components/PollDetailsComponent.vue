@@ -5,7 +5,7 @@
       <QuestionComponent :questions="poll.questions" />
     </div>
     <div v-else>
-      <ResultsComponent />
+      <ResultsComponent v-for="a in answers" :key="a.id" :answer="a" />
     </div>
   </div>
 </template>
@@ -14,24 +14,13 @@
 <script>
 import { computed } from "@vue/reactivity"
 import { AppState } from "../AppState"
+
+
 export default {
   props: { poll: { type: Object, required: true } },
-  setup(props) {
+  setup() {
     return {
-      // TODO need to grab answers for the poll that was clicked on, and add the answers to each question that already exists in the appstate.polls
-
-      // need to iterate through pollSessionAnswers
-      results: computed(() => {
-        let formattedArr = AppState.pollSessionAnswers.map(ps => {
-          props.poll.questions.forEach(q => {
-            if (ps.questionId == q.id) {
-              ps.question = q
-            }
-          })
-          return ps
-        })
-        return formattedArr
-      })
+      answers: computed(() => AppState.pollSessionAnswers)
     }
   }
 }

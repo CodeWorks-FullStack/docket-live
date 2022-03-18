@@ -12,5 +12,5 @@ export const AppState = reactive({
   activeRoom: null,
   fakeData: [],
   revealChart: false,
-  pollSessionAnswers: []
+  pollSessionAnswers: {}
 })

@@ -21,7 +21,13 @@ class PollSessionsService {
 
   async getAnswersByPollSession(pollSessionId) {
     const res = await api.get('api/pollSessions/' + pollSessionId + '/answers')
-    AppState.pollSessionAnswers = res.data
+    logger.log('answers by poll session', res.data)
+    let q = {}
+    res.data.forEach(a => {
+      q[a.questionId] = a[a.questionId] || []
+      q[a.questionId].push(a)
+    })
+    AppState.pollSessionAnswers = q
   }
 
   async createPollSession(newPollSession) {

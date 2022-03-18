@@ -109,7 +109,7 @@
             </div>
           </div>
           <div v-else>
-            <PollDetailsComponent v-if="poll" :poll="poll" />
+            <PollDetailsComponent :poll="poll" />
             <div class="text-end position-absolute spill">
               <i
                 class="mdi mdi-pencil edit bg-primary p-2 mx-2"

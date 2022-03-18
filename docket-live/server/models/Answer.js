@@ -7,7 +7,7 @@ export const Answer = new Schema({
   playerId: { type: Schema.Types.ObjectId, required: true, ref: 'Account' },
   answer: { type: Object, required: true }
 },
-{ timestamps: true, toJSON: { virtuals: true } })
+  { timestamps: true, toJSON: { virtuals: true } })
 
 Answer.virtual('player', {
   localField: 'playerId',
@@ -37,5 +37,4 @@ Answer.virtual('question', {
   foreignField: '_id',
   justOne: true,
   ref: 'Question'
-
 })

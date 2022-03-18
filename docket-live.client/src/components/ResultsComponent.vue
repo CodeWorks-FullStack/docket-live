@@ -7,8 +7,16 @@
 
 <script>
 export default {
+  props: {
+    answer: {
+      type: Object,
+      required: true
+    }
+  },
   setup() {
-    return {}
+    return {
+
+    }
   }
 }
 </script>
