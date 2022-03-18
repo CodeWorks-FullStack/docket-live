@@ -32,6 +32,7 @@
             v-for="(p, index) in activeSession.currentPlayers"
             :key="index"
           >
+            <!-- FIXME name text spilles out of bubble if name is too long -->
             <div
               class="player-bubble p-1"
               :class="{

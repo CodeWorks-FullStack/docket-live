@@ -10,8 +10,8 @@ class PollsService {
   }
 
   async createPoll(newPoll) {
-    await api.post('api/polls', newPoll)
-    AppState.polls.unshift(newPoll)
+    let res = await api.post('api/polls', newPoll)
+    AppState.polls.unshift(res.data)
   }
 
   async editPoll(poll) {

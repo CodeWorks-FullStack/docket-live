@@ -1,5 +1,5 @@
 <template>
-  <div class="row my-2" v-if="account.role == 'staff'">
+  <div class="row my-2" v-if="isStaff">
     <div class="col-md-6 col-4 d-flex align-items-center"></div>
 
     <div class="col-md-6 col-8 d-flex align-items-center justify-content-end">

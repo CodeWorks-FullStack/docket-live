@@ -13,6 +13,7 @@ export class PollsController extends BaseController {
       .get('/:id', this.getPollById)
       .get('/:id/questions/:questionId', this.getQuestionById)
       .use(checkRole)
+      .get('/:id/questions', this.getQuestionsByPoll)
       .post('', this.createPoll)
       .put('/:id', this.editPoll)
       .put('/:id/questions/:questionId', this.editQuestion)
@@ -33,6 +34,15 @@ export class PollsController extends BaseController {
     try {
       const poll = await pollsService.getPollById(req.params.id)
       res.send(poll)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getQuestionsByPoll(req, res, next) {
+    try {
+      const questions = await questionsService.getQuestionsByPoll(req.params.id)
+      res.send(questions)
     } catch (error) {
       next(error)
     }

@@ -18,14 +18,15 @@ import { answersService } from "../services/AnswersService"
 
 import { logger } from "../utils/Logger"
 import { socketService } from "../services/SocketService"
+import { AuthService } from "../services/AuthService"
 export default {
-  setup(){
+  setup() {
     const route = useRoute()
-    onMounted(async() => {
+    onMounted(async () => {
       try {
         await pollSessionsService.getById(route.params.id)
         await questionsService.setActiveQuestion(route.params.index)
-        if(AppState.account.role !== 'staff'){
+        if (AuthService.hasRoles('staff')) {
           await answersService.queryAnswers(AppState.activeQuestion.id)
         }
         socketService.joinRoom(route.params.id)
@@ -48,7 +49,4 @@ export default {
 
 
 <style lang="scss" scoped>
-
-
-
 </style>

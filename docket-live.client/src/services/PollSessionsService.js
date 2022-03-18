@@ -15,7 +15,13 @@ class PollSessionsService {
     const res = await api.get('api/pollSessions')
     logger.log('get results res', res.data)
     AppState.polls = res.data.map(s => new PollSession(s))
+    // TODO refactor appstate to separate polls vs pollSessions
     logger.log(AppState.polls)
+  }
+
+  async getAnswersByPollSession(pollSessionId) {
+    const res = await api.get('api/pollSessions/' + pollSessionId + '/answers')
+    AppState.pollSessionAnswers = res.data
   }
 
   async createPollSession(newPollSession) {

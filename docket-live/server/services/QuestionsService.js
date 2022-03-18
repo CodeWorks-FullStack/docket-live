@@ -1,4 +1,3 @@
-import { BadRequest } from '@bcwdev/auth0provider/lib/Errors'
 import { dbContext } from '../db/DbContext'
 import { pollsService } from './PollsService'
 
@@ -7,6 +6,11 @@ class QuestionsService {
     const poll = await dbContext.Polls.find({ _id: pollId, 'questions._id': questionId }, { 'questions.$': 1, _id: questionId })
 
     return poll[0]
+  }
+
+  async getQuestionsByPoll(pollId) {
+    const questions = await dbContext.Questions.find({ pollId: pollId })
+    return questions
   }
 
   async create(body) {
@@ -31,14 +35,13 @@ class QuestionsService {
     await dbContext.Polls.updateMany({
       _id: pollId
     },
-    {
-      $pull: {
-        questions: {
-          _id: questionId
-
+      {
+        $pull: {
+          questions: {
+            _id: questionId
+          }
         }
-      }
-    })
+      })
     return question
   }
 }

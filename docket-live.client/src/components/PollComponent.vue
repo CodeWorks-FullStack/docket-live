@@ -10,6 +10,7 @@
         selectable
         no-select
       "
+      @click.stop="getAnswersByPollSession"
     >
       <div
         class="col-3"
@@ -108,7 +109,7 @@
             </div>
           </div>
           <div v-else>
-            <PollDetailsComponent :poll="poll" />
+            <PollDetailsComponent v-if="poll" :poll="poll" />
             <div class="text-end position-absolute spill">
               <i
                 class="mdi mdi-pencil edit bg-primary p-2 mx-2"
@@ -190,6 +191,15 @@ export default {
             await pollsService.deletePoll(props.poll.id)
           }
           Pop.toast('Poll Deleted!', 'success')
+        } catch (error) {
+          Pop.toast(error.message, 'error')
+          logger.error(error)
+        }
+      },
+      async getAnswersByPollSession() {
+        try {
+          // NOTE props.poll.id == pollSessionId currently
+          await pollSessionsService.getAnswersByPollSession(props.poll.id)
         } catch (error) {
           Pop.toast(error.message, 'error')
           logger.error(error)

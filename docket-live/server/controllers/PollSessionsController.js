@@ -42,7 +42,7 @@ export class PollSessionsController extends BaseController {
   async getAnswersByPollSession(req, res, next) {
     try {
       const answers = await answersService.getByPollSessionId(req.params.id)
-      res.sed(answers)
+      res.send(answers)
     } catch (error) {
       next(error)
     }
